@@ -94,6 +94,54 @@ Networking
 
 No notable changes
 
+Porting Guide for v8.4.0
+========================
+
+Known Issues
+------------
+
+community.crypto
+~~~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/crypto/.
+
+community.hrobot
+~~~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/hrobot/.
+
+community.routeros
+~~~~~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/routeros/.
+
+community.sops
+~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/sops/.
+
+Major Changes
+-------------
+
+chocolatey.chocolatey
+~~~~~~~~~~~~~~~~~~~~~
+
+- win_chocolatey - add options for specifying checksums
+- win_chocolatey_facts - add filter / gather_subset option
+
+grafana.grafana
+~~~~~~~~~~~~~~~
+
+- Addition of Grafana Server role by @gardar
+- Configurable agent user groups by @NormanJS
+- Grafana Plugins support on-prem Grafana installation by @ishanjainn
+- Updated Service for flow mode by @bentonam
+
+Deprecated Features
+-------------------
+
+- The deprecated servicenow.servicenow collection has been removed from Ansible 7, but accidentally re-added to Ansible 8. It will be removed again from Ansible 9 (https://github.com/ansible-community/community-topics/issues/246).
+
 Porting Guide for v8.1.0
 ========================
 

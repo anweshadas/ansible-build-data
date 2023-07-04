@@ -8,6 +8,309 @@ This changelog describes changes since Ansible 7.0.0.
   :local:
   :depth: 2
 
+v8.4.0
+======
+
+.. contents::
+  :local:
+  :depth: 2
+
+Release Summary
+---------------
+
+Release Date: 2023-07-04
+
+`Porting Guide <https://docs.ansible.com/ansible/devel/porting_guides.html>`_
+
+Ansible-core
+------------
+
+Ansible 8.4.0 contains ansible-core version 2.15.1.
+This is the same version of ansible-core as in the previous Ansible release.
+
+
+Changed Collections
+-------------------
+
+If not mentioned explicitly, the changes are reported in the combined changelog below.
+
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| Collection            | Ansible 8.1.0 | Ansible 8.4.0 | Notes                                                                                                                        |
++=======================+===============+===============+==============================================================================================================================+
+| awx.awx               | 22.3.0        | 22.4.0        | Unfortunately, this collection does not provide changelog data in a format that can be processed by the changelog generator. |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| chocolatey.chocolatey | 1.4.0         | 1.5.0         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| cisco.dnac            | 6.7.2         | 6.7.3         | The collection did not have a changelog in this version.                                                                     |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| cisco.meraki          | 2.15.1        | 2.15.2        |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| community.crypto      | 2.14.0        | 2.14.1        |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| community.hrobot      | 1.8.0         | 1.8.1         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| community.routeros    | 2.8.2         | 2.8.3         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| community.sops        | 1.6.2         | 1.6.4         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| community.zabbix      | 2.0.1         | 2.1.0         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| dellemc.powerflex     | 1.6.0         | 1.7.0         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| dellemc.unity         | 1.6.0         | 1.7.0         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+| grafana.grafana       | 2.0.0         | 2.1.4         |                                                                                                                              |
++-----------------------+---------------+---------------+------------------------------------------------------------------------------------------------------------------------------+
+
+Major Changes
+-------------
+
+chocolatey.chocolatey
+~~~~~~~~~~~~~~~~~~~~~
+
+- win_chocolatey - add options for specifying checksums
+- win_chocolatey_facts - add filter / gather_subset option
+
+grafana.grafana
+~~~~~~~~~~~~~~~
+
+- Addition of Grafana Server role by @gardar
+- Configurable agent user groups by @NormanJS
+- Grafana Plugins support on-prem Grafana installation by @ishanjainn
+- Updated Service for flow mode by @bentonam
+
+Minor Changes
+-------------
+
+cisco.meraki
+~~~~~~~~~~~~
+
+- meraki_mx_site_to_site_firewall - Fix updating VPN rules per issue 302.
+
+community.zabbix
+~~~~~~~~~~~~~~~~
+
+- Multiple Roles - Replaced depricated 'include' statements with 'include_tasks'
+- Update action_groups variable in runtime.yml
+- all roles - Added support for Debian 12 (Bookworm)
+- all roles - Delete gpg ids variable.
+- all roles - Modified to allow a non-root user to run the role.
+- all roles - Updated testing to account for the correct version of Zabbix
+- zabbix_hostmacro module - Add description property for Host macro creation/update. Allow to set/update description of Zabbix host macros.
+- zabbix_proxy - Added installation of PyMySQL pip package
+- zabbix_proxy - Modified installation of Centos 7 MySQL client
+- zabbix_proxy - Standardized MySQL client installed on Debian and Ubuntu
+- zabbix_regexp module added
+- zabbix_settings module added
+- zabbix_token module added
+
+dellemc.powerflex
+~~~~~~~~~~~~~~~~~
+
+- Added Ansible role to support installation and uninstallation of SDC.
+- Added sample playbooks for the modules.
+- Device module is enhanced to support force addition of device to the SDS.
+- Info module is enhanced to list statistics in snapshot policies.
+- Replication consistency group module is enhanced to support failover, restore, reverse, switchover, and sync operations.
+- SDC module is enhanced to configure performance profile and to remove SDC.
+- Updated modules to adhere with ansible community guidelines.
+
+dellemc.unity
+~~~~~~~~~~~~~
+
+- Added replication session module to get details, pause, resume, sync, failover, failback and delete replication sessions.
+- Added support for Unity XT SeaHawk 5.3
+- Documentation updates for boolean values based on ansible community guidelines.
+
+grafana.grafana
+~~~~~~~~~~~~~~~
+
+- Ability to configure date format in grafana server role by @RomainMou
+- Avoid using shell for fetching latest version in Grafana Agent Role by @gardar
+- Datasource test updates and minor fixes
+- Fix Deleting datasources
+- Fix alert_notification_policy failing on fresh instance
+- Fix for invalid yaml with datasources list enclosed in quotes by @elkozmon
+- Making Deleting folders idempotent
+- Remove agent installation custom check by @VLZZZ
+- Remove explicit user creation check by @v-zhuravlev
+- Remove trailing slash automatically from grafana_url
+- Update Download tasks in Grafana Agent Role
+- indentation and Lint fixes to modules
+
+Deprecated Features
+-------------------
+
+- The deprecated servicenow.servicenow collection has been removed from Ansible 7, but accidentally re-added to Ansible 8. It will be removed again from Ansible 9 (https://github.com/ansible-community/community-topics/issues/246).
+
+Bugfixes
+--------
+
+cisco.meraki
+~~~~~~~~~~~~
+
+- Resolved the issue with link negotation at meraki_ms_switchport
+
+community.crypto
+~~~~~~~~~~~~~~~~
+
+- Fix PEM detection/identification to also accept random other lines before the line starting with ``-----BEGIN`` (https://github.com/ansible-collections/community.crypto/issues/627, https://github.com/ansible-collections/community.crypto/pull/628).
+
+community.sops
+~~~~~~~~~~~~~~
+
+- install role - fix ``sops_github_latest_detection=latest-release``, which broke due to sops moving to another GitHub organization (https://github.com/ansible-collections/community.sops/pull/151).
+
+community.zabbix
+~~~~~~~~~~~~~~~~
+
+- agent role - Added missing become statement to allow run to role as nonroot
+- zabbix_host module - fix updating hosts that were discovered via LLD
+- zabbix_proxy role - failed at version validation. Fix adds cast of zabbix_proxy_version to float, similarly to the other roles.
+- zabbix_proxy role - undefined vars at updating proxy definition. Fix adds null defaults for zabbix_proxy_tlsaccept and zabbix_proxy_tlsconnect.
+- zabbix_web role - removed 'ssl on;' nginx configuration, which is no longer supported since nginx version 1.25.1.
+
+Known Issues
+------------
+
+community.crypto
+~~~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/crypto/.
+
+community.hrobot
+~~~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/hrobot/.
+
+community.routeros
+~~~~~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/routeros/.
+
+community.sops
+~~~~~~~~~~~~~~
+
+- Ansible markup will show up in raw form on ansible-doc text output for ansible-core before 2.15. If you have trouble deciphering the documentation markup, please upgrade to ansible-core 2.15 (or newer), or read the HTML documentation on https://docs.ansible.com/ansible/devel/collections/community/sops/.
+
+New Modules
+-----------
+
+community.zabbix
+~~~~~~~~~~~~~~~~
+
+- community.zabbix.zabbix_regexp - Create/update/delete Zabbix regular expression
+- community.zabbix.zabbix_settings - Update Zabbix global settings.
+- community.zabbix.zabbix_token - Create/Update/Generate/Delete Zabbix token.
+
+dellemc.powerflex
+~~~~~~~~~~~~~~~~~
+
+- dellemc.powerflex.snapshot_policy - Manage snapshot policies on Dell PowerFlex
+
+dellemc.unity
+~~~~~~~~~~~~~
+
+- dellemc.unity.replication_session - Manage replication session on the Unity storage system
+
+Unchanged Collections
+---------------------
+
+- amazon.aws (still version 6.1.0)
+- ansible.netcommon (still version 5.1.1)
+- ansible.posix (still version 1.5.4)
+- ansible.utils (still version 2.10.3)
+- ansible.windows (still version 1.14.0)
+- arista.eos (still version 6.0.1)
+- azure.azcollection (still version 1.16.0)
+- check_point.mgmt (still version 5.1.1)
+- cisco.aci (still version 2.6.0)
+- cisco.asa (still version 4.0.1)
+- cisco.intersight (still version 1.0.27)
+- cisco.ios (still version 4.6.1)
+- cisco.iosxr (still version 5.0.3)
+- cisco.ise (still version 2.5.12)
+- cisco.mso (still version 2.4.0)
+- cisco.nso (still version 1.0.3)
+- cisco.nxos (still version 4.4.0)
+- cisco.ucs (still version 1.8.0)
+- cloud.common (still version 2.1.3)
+- cloudscale_ch.cloud (still version 2.3.1)
+- community.aws (still version 6.0.0)
+- community.azure (still version 2.0.0)
+- community.ciscosmb (still version 1.0.6)
+- community.digitalocean (still version 1.23.0)
+- community.dns (still version 2.5.6)
+- community.docker (still version 3.4.8)
+- community.fortios (still version 1.0.0)
+- community.general (still version 7.1.0)
+- community.google (still version 1.0.0)
+- community.grafana (still version 1.5.4)
+- community.hashi_vault (still version 5.0.0)
+- community.libvirt (still version 1.2.0)
+- community.mongodb (still version 1.6.0)
+- community.mysql (still version 3.7.2)
+- community.network (still version 5.0.0)
+- community.okd (still version 2.3.0)
+- community.postgresql (still version 2.4.2)
+- community.proxysql (still version 1.5.1)
+- community.rabbitmq (still version 1.2.3)
+- community.sap (still version 1.0.0)
+- community.sap_libs (still version 1.4.1)
+- community.skydive (still version 1.0.0)
+- community.vmware (still version 3.7.0)
+- community.windows (still version 1.13.0)
+- containers.podman (still version 1.10.2)
+- cyberark.conjur (still version 1.2.0)
+- cyberark.pas (still version 1.0.19)
+- dellemc.enterprise_sonic (still version 2.2.0)
+- dellemc.openmanage (still version 7.6.1)
+- f5networks.f5_modules (still version 1.25.0)
+- fortinet.fortimanager (still version 2.2.0)
+- fortinet.fortios (still version 2.3.0)
+- frr.frr (still version 2.0.2)
+- gluster.gluster (still version 1.0.2)
+- google.cloud (still version 1.1.3)
+- hetzner.hcloud (still version 1.11.0)
+- hpe.nimble (still version 1.1.4)
+- ibm.qradar (still version 2.1.0)
+- ibm.spectrum_virtualize (still version 1.12.0)
+- infinidat.infinibox (still version 1.3.12)
+- infoblox.nios_modules (still version 1.5.0)
+- inspur.ispim (still version 1.3.0)
+- inspur.sm (still version 2.3.0)
+- junipernetworks.junos (still version 5.1.0)
+- kubernetes.core (still version 2.4.0)
+- lowlydba.sqlserver (still version 2.0.0)
+- microsoft.ad (still version 1.2.0)
+- netapp.aws (still version 21.7.0)
+- netapp.azure (still version 21.10.0)
+- netapp.cloudmanager (still version 21.22.0)
+- netapp.elementsw (still version 21.7.0)
+- netapp.ontap (still version 22.7.0)
+- netapp.storagegrid (still version 21.11.1)
+- netapp.um_info (still version 21.8.0)
+- netapp_eseries.santricity (still version 1.4.0)
+- netbox.netbox (still version 3.13.0)
+- ngine_io.cloudstack (still version 2.3.0)
+- ngine_io.exoscale (still version 1.0.0)
+- ngine_io.vultr (still version 1.1.3)
+- openstack.cloud (still version 2.1.0)
+- openvswitch.openvswitch (still version 2.1.1)
+- ovirt.ovirt (still version 3.1.2)
+- purestorage.flasharray (still version 1.19.1)
+- purestorage.flashblade (still version 1.11.0)
+- purestorage.fusion (still version 1.5.0)
+- sensu.sensu_go (still version 1.13.2)
+- servicenow.servicenow (still version 1.0.6)
+- splunk.es (still version 2.1.0)
+- t_systems_mms.icinga_director (still version 1.33.1)
+- theforeman.foreman (still version 3.11.0)
+- vmware.vmware_rest (still version 2.3.1)
+- vultr.cloud (still version 1.8.0)
+- vyos.vyos (still version 4.1.0)
+- wti.remote (still version 1.0.5)
+
 v8.1.0
 ======
 
@@ -25,7 +328,7 @@ Release Date: 2023-06-22
 Ansible-core
 ------------
 
-Ansible 8.1.0 contains Ansible-core version 2.15.1.
+Ansible 8.1.0 contains ansible-core version 2.15.1.
 This is a newer version than version 2.15.0 contained in the previous Ansible release.
 
 The changes are reported in the combined changelog below.
@@ -1082,7 +1385,7 @@ Added Collections
 Ansible-core
 ------------
 
-Ansible 8.0.0 contains Ansible-core version 2.15.0.
+Ansible 8.0.0 contains ansible-core version 2.15.0.
 This is a newer version than version 2.14.0 contained in the previous Ansible release.
 
 The changes are reported in the combined changelog below.
