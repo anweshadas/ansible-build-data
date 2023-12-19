@@ -80,11 +80,16 @@ jobs:
         name: sdist-and-wheel
         path: dist/
 
-    - name: Upload Ansible sdist and wheel to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
+    # - name: Upload Ansible sdist and wheel to PyPI
+    #   uses: pypa/gh-action-pypi-publish@release/v1
+    #   with:
+    #     repository-url: https://test.pypi.org/legacy/
 
+    - name: Testing if the artifacts has been downloaded correctly
+      working-directory: dist
+      run: |
+        pwd
+        ls
 
 # git-tag job creates the git tag
 
