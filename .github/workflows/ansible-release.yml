@@ -79,8 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
          git add *.rst *.build *.deps *.yaml *.in validate-tags-ignores
-         git commit:x
-          -m "${{ env.CI_COMMIT_MESSAGE }}"
+         git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
          git push origin "publish-${{ inputs.ansible-version }}"
 
       - name: Create PR to the ansible-build-data
