@@ -191,3 +191,10 @@ releases:
 
         `Porting Guide <https://docs.ansible.com/ansible/devel/porting_guides.html>`_'
     release_date: '2023-12-06'
+  8.7.1:
+    changes:
+      release_summary: 'Release Date: 2023-12-19
+
+
+        `Porting Guide <https://docs.ansible.com/ansible/devel/porting_guides.html>`_'
+    release_date: '2023-12-19'
