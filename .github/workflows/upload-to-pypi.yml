@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: sdist-and-wheel
-          path: build/ansible-*.*
+          path: antsibull/build/ansible-*.*
 
 # publish job downloads the arifacts and publish it to PyPI
 
