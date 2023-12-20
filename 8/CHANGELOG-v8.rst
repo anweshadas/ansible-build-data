@@ -8,6 +8,338 @@ This changelog describes changes since Ansible 7.0.0.
   :local:
   :depth: 2
 
+v8.7.1
+======
+
+.. contents::
+  :local:
+  :depth: 2
+
+Release Summary
+---------------
+
+Release Date: 2023-12-20
+
+`Porting Guide <https://docs.ansible.com/ansible/devel/porting_guides.html>`_
+
+Ansible-core
+------------
+
+Ansible 8.7.1 contains ansible-core version 2.15.8.
+This is a newer version than version 2.15.7 contained in the previous Ansible release.
+
+The changes are reported in the combined changelog below.
+
+Changed Collections
+-------------------
+
+If not mentioned explicitly, the changes are reported in the combined changelog below.
+
++------------------------+---------------+---------------+----------------------------------------------------------+
+| Collection             | Ansible 8.7.0 | Ansible 8.7.1 | Notes                                                    |
++========================+===============+===============+==========================================================+
+| amazon.aws             | 6.5.0         | 6.5.1         |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| check_point.mgmt       | 5.1.1         | 5.1.3         |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| cisco.dnac             | 6.9.0         | 6.10.0        | The collection did not have a changelog in this version. |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| cisco.meraki           | 2.17.0        | 2.17.2        |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| community.crypto       | 2.16.1        | 2.16.2        |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| community.digitalocean | 1.24.0        | 1.25.0        |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| community.docker       | 3.4.11        | 3.5.0         |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| community.postgresql   | 2.4.3         | 2.4.4         |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| grafana.grafana        | 2.2.3         | 2.2.4         |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| ibm.storage_virtualize | 2.1.0         | 2.2.0         |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| infoblox.nios_modules  | 1.5.0         | 1.6.1         |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| netbox.netbox          | 3.15.0        | 3.16.0        |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+| vultr.cloud            | 1.11.0        | 1.12.0        |                                                          |
++------------------------+---------------+---------------+----------------------------------------------------------+
+
+Major Changes
+-------------
+
+infoblox.nios_modules
+~~~~~~~~~~~~~~~~~~~~~
+
+- Upgrade Ansible version support from 2.13 to 2.16.
+- Upgrade Python version support from 3.8 to 3.10.
+
+Minor Changes
+-------------
+
+Ansible-core
+~~~~~~~~~~~~
+
+- ansible-test - Add FreeBSD 13.2 remote.
+- ansible-test - Removed `freebsd/13.1` remote.
+
+amazon.aws
+~~~~~~~~~~
+
+- ec2_vpc_subnet - use ``wait_timeout`` to also control maximum time to wait for initial creation of subnets (https://github.com/ansible-collections/amazon.aws/pull/1848).
+
+check_point.mgmt
+~~~~~~~~~~~~~~~~
+
+- meta/runtime.yml - update minimum Ansible version required to 2.14.0.
+
+community.digitalocean
+~~~~~~~~~~~~~~~~~~~~~~
+
+- fix sanity tests (https://github.com/ansible-collections/community.digitalocean/issues/323).
+
+community.docker
+~~~~~~~~~~~~~~~~
+
+- docker_container - implement better ``platform`` string comparisons to improve idempotency (https://github.com/ansible-collections/community.docker/issues/654, https://github.com/ansible-collections/community.docker/pull/705).
+- docker_container - internal refactorings which allow comparisons to use more information like details of the current image or the Docker host config (https://github.com/ansible-collections/community.docker/pull/713).
+
+grafana.grafana
+~~~~~~~~~~~~~~~
+
+- Bump cryptography from 41.0.4 to 41.0.6 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/126
+- Drop curl check by @v-zhuravlev in https://github.com/grafana/grafana-ansible-collection/pull/120
+- Fix check mode for grafana role by @Boschung-Mecatronic-AG-Infrastructure in https://github.com/grafana/grafana-ansible-collection/pull/125
+- Fix check mode in Grafana Agent by @AmandaCameron in https://github.com/grafana/grafana-ansible-collection/pull/124
+- Update tags in README by @ishanjainn in https://github.com/grafana/grafana-ansible-collection/pull/121
+
+ibm.storage_virtualize
+~~~~~~~~~~~~~~~~~~~~~~
+
+- ibm_sv_manage_replication_policy - Added support to configure a 2-site-ha policy.
+- ibm_sv_manage_snapshot - Added support to restore entire volumegroup from a snapshot of that volumegroup.
+- ibm_svc_host - Added support to create nvmetcp host.
+- ibm_svc_info - Added support to display information about thinclone/clone volumes and volumegroups.
+- ibm_svc_manage_volumgroup - Added support to delete volumegroups keeping volumes via 'evictvolumes'.
+
+netbox.netbox
+~~~~~~~~~~~~~
+
+- nb_inventory - Add facility group_by option [#1059](https://github.com/netbox-community/ansible_modules/pull/1059)
+- nb_inventory - Enable ansible-vault strings in config-context data [#1114](https://github.com/netbox-community/ansible_modules/pull/1114)
+- netbox_platform - Add config_template option to netbox_platform [#1119](https://github.com/netbox-community/ansible_modules/pull/1119)
+- netbox_power_port_template - Add option module_type to netbox_power_port_template [#1105](https://github.com/netbox-community/ansible_modules/pull/1105)
+
+vultr.cloud
+~~~~~~~~~~~
+
+- Added retry on HTTP 504 returned by the API (https://github.com/vultr/ansible-collection-vultr/pull/104).
+
+Deprecated Features
+-------------------
+
+community.docker
+~~~~~~~~~~~~~~~~
+
+- docker_container - the default ``ignore`` for the ``image_name_mismatch`` parameter has been deprecated and will switch to ``recreate`` in community.docker 4.0.0. A deprecation warning will be printed in situations where the default value is used and where a behavior would change once the default changes (https://github.com/ansible-collections/community.docker/pull/703).
+
+Bugfixes
+--------
+
+Ansible-core
+~~~~~~~~~~~~
+
+- unsafe data - Address an incompatibility when iterating or getting a single index from ``AnsibleUnsafeBytes``
+- unsafe data - Address an incompatibility with ``AnsibleUnsafeText`` and ``AnsibleUnsafeBytes`` when pickling with ``protocol=0``
+
+amazon.aws
+~~~~~~~~~~
+
+- ec2_instance - retry API call if we get ``InvalidInstanceID.NotFound`` error (https://github.com/ansible-collections/amazon.aws/pull/1650).
+- ec2_vpc_subnet - cleanly handle failure when subnet isn't created in time (https://github.com/ansible-collections/amazon.aws/pull/1848).
+- s3_object - Fix typo that caused false deprecation warning when setting `overwrite=latest` (https://github.com/ansible-collections/amazon.aws/pull/1847).
+- s3_object - fixed ``NoSuchTagSet`` error when S3 endpoint doesn't support tags (https://github.com/ansible-collections/amazon.aws/issues/1607).
+- s3_object - when doing a put and specifying ``Content-Type`` in metadata, this module (since 6.0.0) erroneously set the ``Content-Type`` to ``None`` causing the put to fail. Fix now correctly honours the specified ``Content-Type`` (https://github.com/ansible-collections/amazon.aws/issues/1881).
+
+check_point.mgmt
+~~~~~~~~~~~~~~~~
+
+- httpapi/checkpoint.py - Raise a fatal error if login wasn't successful.
+
+cisco.meraki
+~~~~~~~~~~~~
+
+- Adding `smartquotes = False` to `conf.py` and romoving `'` from rst files.
+- Adding build_ignore property to galaxy file.
+
+community.crypto
+~~~~~~~~~~~~~~~~
+
+- acme_* modules - directly react on bad return data for account creation/retrieval/updating requests (https://github.com/ansible-collections/community.crypto/pull/682).
+- acme_* modules - fix improved error reporting in case of socket errors, bad status lines, and unknown connection errors (https://github.com/ansible-collections/community.crypto/pull/684).
+- acme_* modules - increase number of retries from 5 to 10 to increase stability with unstable ACME endpoints (https://github.com/ansible-collections/community.crypto/pull/685).
+- acme_* modules - make account registration handling more flexible to accept 404 instead of 400 send by DigiCert's ACME endpoint when an account does not exist (https://github.com/ansible-collections/community.crypto/pull/681).
+
+community.digitalocean
+~~~~~~~~~~~~~~~~~~~~~~
+
+- inventory plugin - restore reading auth token from env variables (https://github.com/ansible-collections/community.digitalocean/pull/315).
+
+community.docker
+~~~~~~~~~~~~~~~~
+
+- modules and plugins using the Docker SDK for Python - remove ``ssl_version`` from the parameters passed to Docker SDK for Python 7.0.0+. Explicitly fail with a nicer error message if it was explicitly set in this case (https://github.com/ansible-collections/community.docker/pull/715).
+- modules and plugins using the Docker SDK for Python - remove ``tls_hostname`` from the parameters passed to Docker SDK for Python 7.0.0+. Explicitly fail with a nicer error message if it was explicitly set in this case (https://github.com/ansible-collections/community.docker/pull/721).
+- vendored Docker SDK for Python - avoid passing on ``ssl_version`` and ``tls_hostname`` if they were not provided by the user. Remove dead code. (https://github.com/ansible-collections/community.docker/pull/722).
+
+community.postgresql
+~~~~~~~~~~~~~~~~~~~~
+
+- postgresql_query - now reports not changed for queries starting with "SHOW" (https://github.com/ansible-collections/community.postgresql/pull/592).
+- postgresql_user - module failed when running against an SQL_ASCII encoded database as the user's current password was returned as bytes as opposed to a str. Fix now checks for this case and decodes the bytes as an ascii encoded string. (https://github.com/ansible-collections/community.postgresql/issues/584).
+
+infoblox.nios_modules
+~~~~~~~~~~~~~~~~~~~~~
+
+- Fixes environment variable max_results using INFOBLOX_MAX_RESULTS `#209 <https://github.com/infobloxopen/infoblox-ansible/pull/209>`_
+- Fixes index error for transform fields in DTC LBDN (auth_zone and Pool) and DTC POOL (servers and monitors) `#209 <https://github.com/infobloxopen/infoblox-ansible/pull/209>`_
+- Fixes typo for environment variable INFOBLOX_WAPI_VERSION `#209 <https://github.com/infobloxopen/infoblox-ansible/pull/209>`_
+
+netbox.netbox
+~~~~~~~~~~~~~
+
+- Improve error reporting for missing module [#1126](https://github.com/netbox-community/ansible_modules/pull/1126)
+- nb_inventory - Fix API cache failure [#1111](https://github.com/netbox-community/ansible_modules/pull/1111)
+- nb_lookup - Allow multiple IDs in nb_lookup [#1042](https://github.com/netbox-community/ansible_modules/pull/1042)
+
+vultr.cloud
+~~~~~~~~~~~
+
+- Fixed an issue with waiting for state (https://github.com/vultr/ansible-collection-vultr/pull/102).
+
+New Modules
+-----------
+
+community.digitalocean
+~~~~~~~~~~~~~~~~~~~~~~
+
+- community.digitalocean.digital_ocean_project_resource_info - Gather information about DigitalOcean Project Resources
+
+infoblox.nios_modules
+~~~~~~~~~~~~~~~~~~~~~
+
+- infoblox.nios_modules.nios_dtc_monitor_http - Configures the Infoblox NIOS DTC HTTP monitor.
+- infoblox.nios_modules.nios_dtc_monitor_icmp - Configures the Infoblox NIOS DTC ICMP monitor
+- infoblox.nios_modules.nios_dtc_monitor_pdp - Configures the Infoblox NIOS DTC PDP monitor
+- infoblox.nios_modules.nios_dtc_monitor_sip - Configures the Infoblox NIOS DTC SIP monitor
+- infoblox.nios_modules.nios_dtc_monitor_snmp - Configures the Infoblox NIOS DTC SNMP monitor
+- infoblox.nios_modules.nios_dtc_monitor_tcp - Configures the Infoblox NIOS DTC TCP monitor
+- infoblox.nios_modules.nios_dtc_topology - Configures the Infoblox NIOS DTC Topology
+
+vultr.cloud
+~~~~~~~~~~~
+
+- vultr.cloud.object_storage - Manages object storages on Vultr
+
+Unchanged Collections
+---------------------
+
+- ansible.netcommon (still version 5.3.0)
+- ansible.posix (still version 1.5.4)
+- ansible.utils (still version 2.12.0)
+- ansible.windows (still version 1.14.0)
+- arista.eos (still version 6.2.2)
+- awx.awx (still version 22.7.0)
+- azure.azcollection (still version 1.19.0)
+- chocolatey.chocolatey (still version 1.5.1)
+- cisco.aci (still version 2.8.0)
+- cisco.asa (still version 4.0.3)
+- cisco.intersight (still version 1.0.27)
+- cisco.ios (still version 4.6.1)
+- cisco.iosxr (still version 5.0.3)
+- cisco.ise (still version 2.6.2)
+- cisco.mso (still version 2.5.0)
+- cisco.nso (still version 1.0.3)
+- cisco.nxos (still version 4.4.0)
+- cisco.ucs (still version 1.10.0)
+- cloud.common (still version 2.1.4)
+- cloudscale_ch.cloud (still version 2.3.1)
+- community.aws (still version 6.4.0)
+- community.azure (still version 2.0.0)
+- community.ciscosmb (still version 1.0.7)
+- community.dns (still version 2.6.4)
+- community.fortios (still version 1.0.0)
+- community.general (still version 7.5.2)
+- community.google (still version 1.0.0)
+- community.grafana (still version 1.6.1)
+- community.hashi_vault (still version 5.0.1)
+- community.hrobot (still version 1.8.2)
+- community.libvirt (still version 1.3.0)
+- community.mongodb (still version 1.6.3)
+- community.mysql (still version 3.8.0)
+- community.network (still version 5.0.2)
+- community.okd (still version 2.3.0)
+- community.proxysql (still version 1.5.1)
+- community.rabbitmq (still version 1.2.3)
+- community.routeros (still version 2.11.0)
+- community.sap (still version 1.0.0)
+- community.sap_libs (still version 1.4.1)
+- community.skydive (still version 1.0.0)
+- community.sops (still version 1.6.7)
+- community.vmware (still version 3.11.1)
+- community.windows (still version 1.13.0)
+- community.zabbix (still version 2.2.0)
+- containers.podman (still version 1.11.0)
+- cyberark.conjur (still version 1.2.2)
+- cyberark.pas (still version 1.0.23)
+- dellemc.enterprise_sonic (still version 2.2.0)
+- dellemc.openmanage (still version 7.6.1)
+- dellemc.powerflex (still version 1.9.0)
+- dellemc.unity (still version 1.7.1)
+- f5networks.f5_modules (still version 1.27.1)
+- fortinet.fortimanager (still version 2.3.0)
+- fortinet.fortios (still version 2.3.4)
+- frr.frr (still version 2.0.2)
+- gluster.gluster (still version 1.0.2)
+- google.cloud (still version 1.3.0)
+- hetzner.hcloud (still version 1.16.0)
+- hpe.nimble (still version 1.1.4)
+- ibm.qradar (still version 2.1.0)
+- ibm.spectrum_virtualize (still version 1.12.0)
+- infinidat.infinibox (still version 1.3.12)
+- inspur.ispim (still version 1.3.0)
+- inspur.sm (still version 2.3.0)
+- junipernetworks.junos (still version 5.3.1)
+- kubernetes.core (still version 2.4.0)
+- lowlydba.sqlserver (still version 2.2.2)
+- microsoft.ad (still version 1.4.1)
+- netapp.aws (still version 21.7.1)
+- netapp.azure (still version 21.10.1)
+- netapp.cloudmanager (still version 21.22.1)
+- netapp.elementsw (still version 21.7.0)
+- netapp.ontap (still version 22.8.3)
+- netapp.storagegrid (still version 21.11.1)
+- netapp.um_info (still version 21.8.1)
+- netapp_eseries.santricity (still version 1.4.0)
+- ngine_io.cloudstack (still version 2.3.0)
+- ngine_io.exoscale (still version 1.1.0)
+- ngine_io.vultr (still version 1.1.3)
+- openstack.cloud (still version 2.2.0)
+- openvswitch.openvswitch (still version 2.1.1)
+- ovirt.ovirt (still version 3.2.0)
+- purestorage.flasharray (still version 1.24.0)
+- purestorage.flashblade (still version 1.14.0)
+- purestorage.fusion (still version 1.6.0)
+- sensu.sensu_go (still version 1.14.0)
+- servicenow.servicenow (still version 1.0.6)
+- splunk.es (still version 2.1.2)
+- t_systems_mms.icinga_director (still version 1.33.1)
+- telekom_mms.icinga_director (still version 1.35.0)
+- theforeman.foreman (still version 3.15.0)
+- vmware.vmware_rest (still version 2.3.1)
+- vyos.vyos (still version 4.1.0)
+- wti.remote (still version 1.0.5)
+
 v8.7.0
 ======
 
@@ -1114,6 +1446,11 @@ netapp.ontap
 ~~~~~~~~~~~~
 
 - netapp.ontap.na_ontap_ems_config - NetApp ONTAP module to modify EMS configuration.
+
+netbox.netbox
+~~~~~~~~~~~~~
+
+- netbox.netbox.netbox_config_template - Creates, updates, or removed a config template from NetBox
 
 Unchanged Collections
 ---------------------
